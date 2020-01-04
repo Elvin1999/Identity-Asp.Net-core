@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityProject.Infrastructure;
 using IdentityProject.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,8 +28,18 @@ namespace IdentityProject
         {
             services.AddDbContext<ApplicationIdentityDbContext>
           (options => options.UseSqlServer(Microsoft.Extensions.Configuration.ConfigurationExtensions.GetConnectionString(configuration, "DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddTransient<IPasswordValidator<ApplicationUser>, CustomPasswordValidator>();
+            services.AddTransient<IUserValidator<ApplicationUser>, CustomUserValidator>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(
+                options => {
+                    options.User.RequireUniqueEmail = true;
+                    options.Password.RequiredLength = 10;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireDigit = false;
+                }
+                )
                 .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
                 .AddDefaultTokenProviders();
             services.AddMvc().AddMvcOptions(options => options
