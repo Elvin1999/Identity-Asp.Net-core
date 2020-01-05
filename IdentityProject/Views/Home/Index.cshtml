@@ -3,4 +3,15 @@
 *@
 @{
 }
-<h1>Index</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <span>@User.Identity.Name</span>
+    <br />
+    <a asp-action="LogOut" asp-controller="Account" class="btn btn-danger">Log Out</a>
+}
+else
+{
+    <a asp-action="Login" asp-controller="Account" class="btn btn-success">Log In</a>
+    <a asp-action="Create" asp-controller="Admin" class="btn btn-primary">Registration</a>
+}

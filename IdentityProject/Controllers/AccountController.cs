@@ -51,5 +51,14 @@ namespace IdentityProject.Controllers
             
             return View(loginModel);
         }
+        public async Task<IActionResult> LogOut()
+        {
+            await SignInManager.SignOutAsync();
+            return RedirectToAction("Index","Home");
+        }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
