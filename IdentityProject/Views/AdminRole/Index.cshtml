@@ -9,6 +9,12 @@
 <div class="text-danger" asp-validation-summary="All">
 
 </div>
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["message"]
+    </div>
+}
 <table class="table table-bordered table-sm table-striped">
     <tr>
         <th>Role Id</th>
@@ -35,7 +41,7 @@
                 <td>
                     <form asp-action="Delete" asp-route-id="@role.Id" method="post">
                         <button type="submit" class="btn btn-danger" value="Delete">Delete</button>
-                        <a asp-action="Update" asp-route-id="@role.Id" class="btn btn-warning">Update</a>
+                        <a asp-action="Edit" asp-route-id="@role.Id" class="btn btn-warning">Update</a>
                     </form>
                 </td>
             </tr>
